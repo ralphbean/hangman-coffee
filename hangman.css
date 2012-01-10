@@ -1,4 +1,21 @@
 body {
     font-family: 'Patua One', cursive;
-    font-size: 200%;
+    font-size: 175%;
+}
+
+canvas {
+    height: 603px;
+    width: 364px;
+}
+#container {
+    width: 100%;
+}
+#left {
+    position: absolute;
+    left: 0;
+}
+#right {
+    position: absolute;
+    width: 900px;
+    right: 0;
 }

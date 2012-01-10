@@ -12,12 +12,20 @@
         <script type="text/javascript" src="hangman.js"></script>
     </head>
     <body>
-        <div id="hangman"></div>
-        <div id="prompt-container" class="ui-widget ui-widget-content ui-corner-all">
-            <span id="prompt-label"></span>
-            <input id="prompt-input"></input>
-            <span id="prompt-status"></span>
+        <div id="container">
+            <div id="left">
+                <div id="gallows">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+            <div id="right">
+                <div id="prompt-container" class="ui-widget ui-widget-content ui-corner-all">
+                    <span id="prompt-label"></span>
+                    <input id="prompt-input"></input>
+                    <span id="prompt-status"></span>
+                </div>
+                <div id="messages" class="ui-widget ui-widget-content ui-corner-all"></div>
+            </div>
         </div>
-        <div id="messages" class="ui-widget ui-widget-content ui-corner-all"></div>
     </body>
 </html>
