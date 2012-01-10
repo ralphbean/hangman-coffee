@@ -115,6 +115,9 @@ class Game
 
     is_over: () =>
         if @points_left < 0
+            audio = new Audio()
+            audio.src = "audio/sad-trombone.wav"
+            audio.play()
             @u.message('---------')
             @u.message("You lost!", init)
             return true
