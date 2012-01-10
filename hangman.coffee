@@ -7,9 +7,11 @@ class Util
         $("#messages").prepend(msg + "<br/>")
         callback() if callback
 
-    input: (msg, callback, status) =>
-        $("#prompt-label").html(msg) if msg
+    redraw: (status) =>
         $("#prompt-status").html(status) if status
+
+    input: (msg, callback) =>
+        $("#prompt-label").html(msg) if msg
         $("#prompt-input").unbind()
         $("#prompt-input").keyup((event) ->
             if event.keyCode is 13
@@ -134,6 +136,8 @@ class Game
             audio = new Audio()
             audio.src = "audio/sad-trombone.wav"
             audio.play()
+            status = @secret + " (" + @guessed_letters.join(',') + ")"
+            @u.redraw(status)
             @u.message('---------')
             @u.message("You lost!", init)
             return true
@@ -152,15 +156,16 @@ class Game
     play: () =>
         # Show the state of the game
         @gallows.render(@guessed_letters, @secret, @points_left)
+        status = @reveal_letters() + " (" + @guessed_letters.join(',') + ")"
+        @u.redraw(status)
 
         # Check if the game is over
         if @is_over()
             return
 
         # Take a guess
-        status = @reveal_letters() + " (" + @guessed_letters.join(',') + ")"
         msg = "  Guess a letter:"
-        @u.input(msg, @deal_with_guess, status)
+        @u.input(msg, @deal_with_guess)
 
 
 init = () =>

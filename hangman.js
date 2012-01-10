@@ -8,6 +8,7 @@
 
     function Util() {
       this.input = __bind(this.input, this);
+      this.redraw = __bind(this.redraw, this);
       this.message = __bind(this.message, this);
     }
 
@@ -20,9 +21,12 @@
       if (callback) return callback();
     };
 
-    Util.prototype.input = function(msg, callback, status) {
+    Util.prototype.redraw = function(status) {
+      if (status) return $("#prompt-status").html(status);
+    };
+
+    Util.prototype.input = function(msg, callback) {
       if (msg) $("#prompt-label").html(msg);
-      if (status) $("#prompt-status").html(status);
       $("#prompt-input").unbind();
       return $("#prompt-input").keyup(function(event) {
         var val;
@@ -173,11 +177,13 @@
     };
 
     Game.prototype.is_over = function() {
-      var audio, letter, _i, _len, _ref;
+      var audio, letter, status, _i, _len, _ref;
       if (this.points_left <= 0) {
         audio = new Audio();
         audio.src = "audio/sad-trombone.wav";
         audio.play();
+        status = this.secret + " (" + this.guessed_letters.join(',') + ")";
+        this.u.redraw(status);
         this.u.message('---------');
         this.u.message("You lost!", init);
         return true;
@@ -198,10 +204,11 @@
     Game.prototype.play = function() {
       var msg, status;
       this.gallows.render(this.guessed_letters, this.secret, this.points_left);
-      if (this.is_over()) return;
       status = this.reveal_letters() + " (" + this.guessed_letters.join(',') + ")";
+      this.u.redraw(status);
+      if (this.is_over()) return;
       msg = "  Guess a letter:";
-      return this.u.input(msg, this.deal_with_guess, status);
+      return this.u.input(msg, this.deal_with_guess);
     };
 
     return Game;
