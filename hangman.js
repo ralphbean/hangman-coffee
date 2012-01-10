@@ -177,11 +177,13 @@
     };
 
     Game.prototype.is_over = function() {
-      var audio, letter, _i, _len, _ref;
+      var audio, letter, status, _i, _len, _ref;
       if (this.points_left <= 0) {
         audio = new Audio();
         audio.src = "audio/sad-trombone.wav";
         audio.play();
+        status = this.secret + " (" + this.guessed_letters.join(',') + ")";
+        this.u.redraw(status);
         this.u.message('---------');
         this.u.message("You lost!", init);
         return true;

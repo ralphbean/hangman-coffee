@@ -136,6 +136,8 @@ class Game
             audio = new Audio()
             audio.src = "audio/sad-trombone.wav"
             audio.play()
+            status = @secret + " (" + @guessed_letters.join(',') + ")"
+            @u.redraw(status)
             @u.message('---------')
             @u.message("You lost!", init)
             return true
