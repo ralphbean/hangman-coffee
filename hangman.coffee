@@ -112,6 +112,7 @@ class Game
         @points_left--
         return @u.message("Fail!", @play)
 
+
     is_over: () =>
         if @points_left < 0
             @u.message('---------')
@@ -122,6 +123,9 @@ class Game
             if letter not in @guessed_letters
                 return false
 
+        audio = new Audio()
+        audio.src = "audio/Firework-Public_d-182.wav"
+        audio.play()
         @u.message('---------')
         @u.message("You won!", init)
         return true
