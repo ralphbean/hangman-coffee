@@ -1,4 +1,8 @@
 class Util
+    ###
+    Utilities for IO
+    ###
+
     message: (msg, callback) =>
         $("#messages").prepend(msg + "<br/>")
         callback() if callback
@@ -15,12 +19,17 @@ class Util
         )
 
 class Gallows
+    ###
+    Drawing the hangman on the gallows
+    ###
+
     constructor: ->
         @canvas = document.getElementById('canvas')
         @c = @canvas.getContext('2d')
         @spritesheet = new Image()
         @spritesheet.src = 'images/original.png'
         @image_dims = {width: 364, height: 603}
+        # Spritemap lookup table
         @lookup = {
             'head': {
                 offsetX: 163,
@@ -60,7 +69,6 @@ class Gallows
             },
         }
 
-    
     render_part: (part) =>
         @c.drawImage(
             @spritesheet,
@@ -85,7 +93,12 @@ class Gallows
         @render_part('right_leg') if points < 2
         @render_part('left_leg') if points < 1
 
+
 class Game
+    ###
+    All the game logic
+    ###
+
     constructor: (@secret) ->
         @guessed_letters = []
         @points_left = 6
@@ -161,4 +174,5 @@ init = () =>
     # Employ that callback
     u.input("Secret word:", start_game_with)
 
+# Start it all off
 $(document).ready(init)
