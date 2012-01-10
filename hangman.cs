@@ -1,42 +1,33 @@
 class Util
     message: (msg, callback) =>
-        $("body").append("<div id='message-dialog'>" + msg + "</div>")
-        $("#message-dialog").dialog({
-            autoOpen: true,
-            buttons: { "Okay": () =>
-                $("#message-dialog").dialog("destroy")
-                $("#message-dialog").remove()
-                callback()
-            }
-        })
+        $("#messages").prepend(msg + "<br/>")
+        callback() if callback
 
-    input: (msg, callback) =>
-        $("body").append("
-            <div id='input-dialog'>" + msg + "
-                <input id='input'></input>
-            </div>")
-        $("#input-dialog").dialog({
-            autoOpen: true,
-            buttons: { "Okay": () =>
-                val = $("#input").val()
-                $("#input-dialog").dialog("destroy")
-                $("#input-dialog").remove()
+    input: (msg, callback, status) =>
+        $("#prompt-label").html(msg) if msg
+        $("#prompt-status").html(status) if status
+        $("#prompt-input").unbind()
+        $("#prompt-input").keyup((event) ->
+            if event.keyCode is 13
+                val = $(this).val()
+                $(this).val('')
                 callback(val)
-            }
-        })
+        )
+
+class Gallows
+    render: (guessed_letters, secret) =>
+        console.log(guessed_letters)
 
 class Game
     constructor: (@secret) ->
         @guessed_letters = []
         @points_left = 6
         @u = new Util
-
-    vanna_white: () =>
-        console.log(@secret)
+        @gallows = new Gallows
 
     deal_with_guess: (guess) =>
         return @u.message("No input.", @play) if guess.length < 1
-        return @u.message("One character!", @play) if guess.length > 1
+        return @u.message("Only one character!", @play) if guess.length > 1
 
         @guessed_letters.push(guess)
         return @u.message("Great!", @play) if guess in @secret
@@ -62,22 +53,26 @@ class Game
             return
 
         # Show the state of the game
-        @vanna_white()
+        @gallows.render(@guessed_letters, @secret)
 
         # Take a guess
-        msg = "Guess a letter.  " + @guessed_letters.join(', ')
-        @u.input(msg, @deal_with_guess)
+        status = "(Guessed so far: " + @guessed_letters.join(', ') + ")"
+        msg = "  Guess a letter:"
+        @u.input(msg, @deal_with_guess, status)
 
 
 init = () =>
+    u = new Util
+
     # Set up a callback for handling the secret word
     start_game_with = (secret) =>
+        u.message("The secret word is: " + ('*' for char in secret).join(''))
+
         # Build a game and play it
         game = new Game(secret)
         game.play()
 
     # Employ that callback
-    u = new Util
     u.input("Secret word:", start_game_with)
 
 $(document).ready(init)

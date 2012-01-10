@@ -1,8 +1,8 @@
 <html>
     <head>
-        <link rel="stylesheet" type="text/css"
-            href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/excite-bike/jquery-ui.css">
-        </link>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/excite-bike/jquery-ui.css" rel="stylesheet" type="text/css"></link>
+        <link href='http://fonts.googleapis.com/css?family=Patua+One' rel='stylesheet' type='text/css'></link>
+        <link href='hangman.css' rel='stylesheet' type='text/css'></link>
         <script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js">
         </script>
@@ -12,5 +12,12 @@
         <script type="text/javascript" src="hangman.js"></script>
     </head>
     <body>
+        <div id="hangman"></div>
+        <div id="prompt-container" class="ui-widget ui-widget-content ui-corner-all">
+            <span id="prompt-label"></span>
+            <input id="prompt-input"></input>
+            <span id="prompt-status"></span>
+        </div>
+        <div id="messages" class="ui-widget ui-widget-content ui-corner-all"></div>
     </body>
 </html>
