@@ -94,6 +94,13 @@ class Game
         @gallows = new Gallows
         @gallows.render(@guessed_letters, @secret, @points_left)
 
+
+    reveal_letters: () =>
+        choose = (letter) =>
+            return if letter in @guessed_letters then letter else '*'
+        return (choose(letter) for letter in @secret).join('')
+
+
     deal_with_guess: (guess) =>
         return @u.message("You already guessed that!", @play) if guess in @guessed_letters
         return @u.message("You didn't input anything!", @play) if guess.length < 1
@@ -128,7 +135,7 @@ class Game
         @gallows.render(@guessed_letters, @secret, @points_left)
 
         # Take a guess
-        status = "(" + @guessed_letters.join(', ') + ")"
+        status = @reveal_letters() + " (" + @guessed_letters.join(',') + ")"
         msg = "  Guess a letter:"
         @u.input(msg, @deal_with_guess, status)
 
