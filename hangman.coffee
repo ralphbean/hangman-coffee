@@ -52,24 +52,25 @@ class Gallows
             'right_arm': {
                 offsetX: 273,
                 offsetY: 40,
-                width: 95,
+                width: 90,
                 height: 300,
             },
             'right_leg': {
                 offsetX: 200,
                 offsetY: 240,
-                width: 120,
-                height: 375,
+                width: 100,
+                height: 330,
             },
             'left_leg': {
                 offsetX: 0,
                 offsetY: 240,
                 width: 200,
-                height: 375,
+                height: 330,
             },
         }
 
     render_part: (part) =>
+        console.log("drawing part:" + part)
         @c.drawImage(
             @spritesheet,
             @lookup[part].offsetX,
@@ -127,7 +128,7 @@ class Game
 
 
     is_over: () =>
-        if @points_left < 0
+        if @points_left <= 0
             audio = new Audio()
             audio.src = "audio/sad-trombone.wav"
             audio.play()
@@ -147,12 +148,12 @@ class Game
         return true
 
     play: () =>
+        # Show the state of the game
+        @gallows.render(@guessed_letters, @secret, @points_left)
+
         # Check if the game is over
         if @is_over()
             return
-
-        # Show the state of the game
-        @gallows.render(@guessed_letters, @secret, @points_left)
 
         # Take a guess
         status = @reveal_letters() + " (" + @guessed_letters.join(',') + ")"
