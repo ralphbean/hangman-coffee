@@ -75,6 +75,9 @@ class Gallows
         )
 
     render: (guessed_letters, secret, points) =>
+        @c.fillStyle = '#FFFFFF'
+        @c.fillRect(0, 0, @canvas.width, @canvas.height)
+
         @render_part('body') if points < 5
         @render_part('head') if points < 6
         @render_part('left_arm') if points < 4
@@ -87,6 +90,7 @@ class Game
         @guessed_letters = []
         @points_left = 6
         @u = new Util
+        @u.message('---------')
         @gallows = new Gallows
         @gallows.render(@guessed_letters, @secret, @points_left)
 
@@ -103,6 +107,7 @@ class Game
 
     is_over: () =>
         if @points_left < 0
+            @u.message('---------')
             @u.message("You lost!", init)
             return true
 
@@ -110,6 +115,7 @@ class Game
             if letter not in @guessed_letters
                 return false
 
+        @u.message('---------')
         @u.message("You won!", init)
         return true
 
