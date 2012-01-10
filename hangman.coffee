@@ -101,6 +101,7 @@ class Game
     ###
 
     constructor: (@secret) ->
+        @secret = @secret.toLowerCase()
         @guessed_letters = []
         @points_left = 6
         @u = new Util
@@ -116,6 +117,7 @@ class Game
 
 
     deal_with_guess: (guess) =>
+        guess = guess.toLowerCase()
         return @u.message("You already guessed that!", @play) if guess in @guessed_letters
         return @u.message("You didn't input anything!", @play) if guess.length < 1
         return @u.message("You can only guess one letter at a time!", @play) if guess.length > 1
