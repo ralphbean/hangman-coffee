@@ -11,6 +11,10 @@
       this.message = __bind(this.message, this);
     }
 
+    /*
+        Utilities for IO
+    */
+
     Util.prototype.message = function(msg, callback) {
       $("#messages").prepend(msg + "<br/>");
       if (callback) return callback();
@@ -35,7 +39,9 @@
   })();
 
   Gallows = (function() {
-
+    /*
+        Drawing the hangman on the gallows
+    */
     function Gallows() {
       this.render = __bind(this.render, this);
       this.render_part = __bind(this.render_part, this);      this.canvas = document.getElementById('canvas');
@@ -68,25 +74,26 @@
         'right_arm': {
           offsetX: 273,
           offsetY: 40,
-          width: 95,
+          width: 90,
           height: 300
         },
         'right_leg': {
           offsetX: 200,
           offsetY: 240,
-          width: 120,
-          height: 375
+          width: 100,
+          height: 330
         },
         'left_leg': {
           offsetX: 0,
           offsetY: 240,
           width: 200,
-          height: 375
+          height: 330
         }
       };
     }
 
     Gallows.prototype.render_part = function(part) {
+      console.log("drawing part:" + part);
       return this.c.drawImage(this.spritesheet, this.lookup[part].offsetX, this.lookup[part].offsetY, this.lookup[part].width, this.lookup[part].height, this.lookup[part].offsetX / this.image_dims.width * this.canvas.width, this.lookup[part].offsetY / this.image_dims.height * this.canvas.height, this.lookup[part].width / this.image_dims.width * this.canvas.width, this.lookup[part].height / this.image_dims.height * this.canvas.height);
     };
 
@@ -106,7 +113,9 @@
   })();
 
   Game = (function() {
-
+    /*
+        All the game logic
+    */
     function Game(secret) {
       this.secret = secret;
       this.play = __bind(this.play, this);
@@ -163,7 +172,7 @@
 
     Game.prototype.is_over = function() {
       var audio, letter, _i, _len, _ref;
-      if (this.points_left < 0) {
+      if (this.points_left <= 0) {
         audio = new Audio();
         audio.src = "audio/sad-trombone.wav";
         audio.play();
@@ -186,8 +195,8 @@
 
     Game.prototype.play = function() {
       var msg, status;
-      if (this.is_over()) return;
       this.gallows.render(this.guessed_letters, this.secret, this.points_left);
+      if (this.is_over()) return;
       status = this.reveal_letters() + " (" + this.guessed_letters.join(',') + ")";
       msg = "  Guess a letter:";
       return this.u.input(msg, this.deal_with_guess, status);
