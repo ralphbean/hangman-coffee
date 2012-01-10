@@ -122,6 +122,7 @@
       this.is_over = __bind(this.is_over, this);
       this.deal_with_guess = __bind(this.deal_with_guess, this);
       this.reveal_letters = __bind(this.reveal_letters, this);
+      this.secret = this.secret.toLowerCase();
       this.guessed_letters = [];
       this.points_left = 6;
       this.u = new Util;
@@ -153,6 +154,7 @@
     };
 
     Game.prototype.deal_with_guess = function(guess) {
+      guess = guess.toLowerCase();
       if (__indexOf.call(this.guessed_letters, guess) >= 0) {
         return this.u.message("You already guessed that!", this.play);
       }
